@@ -10,8 +10,8 @@ apply plugin: 'kotlin-android'
 
 dependencies {
   compile rootProject.ext.kotlinStdlib
-  compile 'com.squareup.flow:flow:0.12'
-  compile "com.android.support:support-annotations:$rootProject.ext.supportLibVersion"
+  compile rootProject.ext.appCompat
+  compile rootProject.ext.flow
 }
 
 android {
