@@ -1,0 +1,38 @@
+buildscript {
+  dependencies {
+    classpath rootProject.ext.androidPlugin
+    classpath rootProject.ext.kotlinPlugin
+  }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+dependencies {
+  compile rootProject.ext.kotlinStdlib
+  compile 'com.android.support:appcompat-v7:23.1.1'
+}
+
+android {
+  compileSdkVersion rootProject.ext.compileSdkVersion
+  buildToolsVersion rootProject.ext.buildToolsVersion
+
+  defaultConfig {
+    applicationId 'com.example.navi'
+    minSdkVersion rootProject.ext.minSdkVersion
+    targetSdkVersion rootProject.ext.compileSdkVersion
+    versionCode 1
+    versionName '1.0'
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+  }
+}
