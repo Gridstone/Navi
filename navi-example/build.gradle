@@ -9,8 +9,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 dependencies {
+  compile project(':navi')
   compile rootProject.ext.kotlinStdlib
-  compile 'com.android.support:appcompat-v7:23.1.1'
+  compile rootProject.ext.appCompat
+  compile 'com.google.code.gson:gson:2.5'
+  compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
+  compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
 }
 
 android {

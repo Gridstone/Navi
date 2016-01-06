@@ -6,8 +6,9 @@ package au.com.gridstone.navi
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.LayoutRes
 import android.support.v7.app.AppCompatActivity
+import android.view.ViewGroup
+import flow.Flow
 import flow.FlowDelegate.NonConfigurationInstance
 import flow.History
 import flow.StateParceler
@@ -16,7 +17,7 @@ abstract class AppCompatNaviActivity : AppCompatActivity() {
   lateinit var naviDelegate: NaviDelegate
 
   abstract fun getPresenterStack(): PresenterStack
-  @LayoutRes abstract fun getContainer(): Int
+  abstract fun getContainer(): ViewGroup
   abstract fun getParceler(): StateParceler
   abstract fun getDefaultHistory(): History
 
@@ -26,9 +27,8 @@ abstract class AppCompatNaviActivity : AppCompatActivity() {
     val nonConfig = lastCustomNonConfigurationInstance as NonConfigurationInstance?
 
     naviDelegate = onCreateForNavi(
-        this,
-        getPresenterStack(),
         getContainer(),
+        getPresenterStack(),
         savedInstanceState,
         nonConfig,
         intent,
@@ -67,9 +67,13 @@ abstract class AppCompatNaviActivity : AppCompatActivity() {
     naviDelegate.onDestroy(this)
   }
 
-  override fun onRetainCustomNonConfigurationInstance(): Any = naviDelegate.onRetainCustomNonConfigurationInstance()
+  override fun onRetainCustomNonConfigurationInstance() = naviDelegate.onRetainCustomNonConfigurationInstance()
 
   override fun getSystemService(name: String): Any {
-    return naviDelegate.getSystemService(this, name)
+    if (Flow.isFlowSystemService(name)) {
+      return naviDelegate.getFlowSystemService(name)
+    }
+
+    return super.getSystemService(name)
   }
 }

@@ -4,12 +4,22 @@
 
 package com.example.navi
 
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.view.ViewGroup
+import au.com.gridstone.navi.AppCompatNaviActivity
+import au.com.gridstone.navi.PresenterStack
+import com.example.navi.home.HomeScreen
+import flow.History
+import flow.StateParceler
 
-class MainActivity : AppCompatActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+class MainActivity : AppCompatNaviActivity() {
+  override fun getPresenterStack(): PresenterStack = getApp(this).presenterStack
+
+  override fun getContainer(): ViewGroup {
+    setContentView(R.layout.main_container)
+    return findViewById(R.id.main_container) as ViewGroup
   }
+
+  override fun getParceler(): StateParceler = GsonParceler()
+
+  override fun getDefaultHistory(): History = History.single(HomeScreen())
 }
