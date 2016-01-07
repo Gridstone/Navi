@@ -43,7 +43,6 @@ class GsonParceler : StateParceler {
     return gson.fromJson(reader, type)
   }
 
-  /*
   private data class Wrapper(val json: String) : Parcelable {
     override fun writeToParcel(dest: Parcel, flags: Int) {
       dest.writeString(json)
@@ -57,23 +56,6 @@ class GsonParceler : StateParceler {
 
         override fun createFromParcel(source: Parcel): Wrapper = Wrapper(source.readString())
       }
-    }
-  }
-  */
-}
-
-data class Wrapper(val json: String) : Parcelable {
-  override fun writeToParcel(dest: Parcel, flags: Int) {
-    dest.writeString(json)
-  }
-
-  override fun describeContents(): Int = 0
-
-  companion object {
-    val CREATOR = object : Parcelable.Creator<Wrapper> {
-      override fun newArray(size: Int): Array<Wrapper?> = arrayOfNulls(size)
-
-      override fun createFromParcel(source: Parcel): Wrapper = Wrapper(source.readString())
     }
   }
 }

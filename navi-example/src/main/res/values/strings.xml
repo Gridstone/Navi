@@ -1,3 +1,16 @@
+<!--
+  ~ Copyright (C) GRIDSTONE 2016
+  -->
+
 <resources>
-    <string name="app_name">Navi Example</string>
+  <string name="app_name">Navi Example</string>
+
+  <string name="home_title">Chuck Norris Jokes</string>
+  <string name="home_uncategorised">Uncategorised</string>
+  <string name="home_nerdy">Nerdy</string>
+  <string name="home_explicit">Explicit</string>
+  <string name="home_random">Random Joke</string>
+
+  <string name="joke_list_loading">Fetching jokes…</string>
+  <string name="joke_list_error">An error occurred whilst fetching jokes.</string>
 </resources>

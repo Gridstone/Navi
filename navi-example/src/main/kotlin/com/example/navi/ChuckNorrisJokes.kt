@@ -4,16 +4,17 @@
 
 package com.example.navi
 
-import com.example.navi.model.JokesResponse
+import com.example.navi.model.JokeListResponse
+import com.example.navi.model.JokeResponse
 import retrofit2.GsonConverterFactory
 import retrofit2.Result
 import retrofit2.Retrofit
 import retrofit2.RxJavaCallAdapterFactory
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 import rx.Observable
 
-object ChuckNorrisApi {
+object ChuckNorrisJokes {
   private const val API_URL = "http://api.icndb.com"
 
   const val CATEGORY_NERDY = "nerdy"
@@ -27,10 +28,13 @@ object ChuckNorrisApi {
       .create(Api::class.java)
 
   interface Api {
-    @GET("jokes/?exclude=[$CATEGORY_NERDY, $CATEGORY_EXPLICIT]")
-    fun uncategorisedJokes(): Observable<Result<JokesResponse>>
+    @GET("/jokes/?exclude=[$CATEGORY_NERDY, $CATEGORY_EXPLICIT]")
+    fun uncategorisedJokes(): Observable<Result<JokeListResponse>>
 
-    @GET("jokes/?limitTo[{category}]")
-    fun categorisedJokes(@Path("category") category: String): Observable<Result<JokesResponse>>
+    @GET("/jokes")
+    fun jokes(@Query("limitTo") limitTo: String? = null): Observable<Result<JokeListResponse>>
+
+    @GET("jokes/random?limitTo=[$CATEGORY_NERDY]")
+    fun randomNerdyJoke(): Observable<Result<JokeResponse>>
   }
 }
