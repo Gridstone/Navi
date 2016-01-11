@@ -7,6 +7,7 @@ package com.example.navi
 import android.view.ViewGroup
 import au.com.gridstone.navi.AppCompatNaviActivity
 import au.com.gridstone.navi.PresenterStack
+import au.com.gridstone.navi.Segue
 import com.example.navi.home.HomeScreen
 import flow.History
 import flow.StateParceler
@@ -22,4 +23,6 @@ class MainActivity : AppCompatNaviActivity() {
   override fun getParceler(): StateParceler = GsonParceler()
 
   override fun getDefaultHistory(): History = History.single(HomeScreen())
+
+  override fun getSegue(): Segue = SlideSegue()
 }

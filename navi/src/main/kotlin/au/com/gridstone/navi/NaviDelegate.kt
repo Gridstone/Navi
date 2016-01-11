@@ -20,8 +20,10 @@ fun onCreateForNavi(
     nonConfig: NonConfigurationInstance?,
     intent: Intent,
     parceler: StateParceler,
-    defaultHistory: History
-): NaviDelegate = NaviDelegate(container, presenterStack, savedInstanceState, nonConfig, intent, parceler, defaultHistory)
+    defaultHistory: History,
+    listener: Navi.Listener? = null,
+    segue: Segue = CrossFadeSegue()
+): NaviDelegate = NaviDelegate(container, presenterStack, savedInstanceState, nonConfig, intent, parceler, defaultHistory, listener, segue)
 
 class NaviDelegate internal constructor(
     container: ViewGroup,
@@ -30,9 +32,11 @@ class NaviDelegate internal constructor(
     nonConfig: NonConfigurationInstance?,
     intent: Intent,
     parceler: StateParceler,
-    defaultHistory: History
+    defaultHistory: History,
+    listener: Navi.Listener?,
+    segue: Segue
 ) {
-  val navi = Navi(container, presenterStack)
+  val navi = Navi(container, presenterStack, listener, segue)
   val flowDelegate: FlowDelegate
 
   init {

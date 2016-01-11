@@ -21,6 +21,9 @@ abstract class AppCompatNaviActivity : AppCompatActivity() {
   abstract fun getParceler(): StateParceler
   abstract fun getDefaultHistory(): History
 
+  open fun getSegue(): Segue = CrossFadeSegue()
+  open fun getListener(): Navi.Listener? = null
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
@@ -33,7 +36,9 @@ abstract class AppCompatNaviActivity : AppCompatActivity() {
         nonConfig,
         intent,
         getParceler(),
-        getDefaultHistory()
+        getDefaultHistory(),
+        getListener(),
+        getSegue()
     )
   }
 
