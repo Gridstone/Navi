@@ -12,6 +12,9 @@ dependencies {
   compile rootProject.ext.kotlinStdlib
   compile rootProject.ext.appCompat
   compile rootProject.ext.flow
+  testCompile rootProject.ext.junit
+  testCompile rootProject.ext.robolectric
+  testCompile rootProject.ext.truth
 }
 
 android {
@@ -24,5 +27,6 @@ android {
 
   sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
+    test.java.srcDirs += 'src/test/kotlin'
   }
 }
