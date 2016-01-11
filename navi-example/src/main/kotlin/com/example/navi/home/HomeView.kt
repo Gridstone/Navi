@@ -5,36 +5,39 @@
 package com.example.navi.home
 
 import android.content.Context
-import android.text.Html
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
-import android.widget.Button
-import android.widget.ScrollView
-import android.widget.TextView
 import android.widget.ViewAnimator
 import butterknife.bindView
+import com.example.navi.Game
 import com.example.navi.R
-import com.example.navi.jokelist.Category
-import com.example.navi.jokelist.JokeListScreen
-import com.jakewharton.rxbinding.view.clicks
+import com.example.navi.game.GameScreen
 import flow.Flow
 
-class HomeView(context: Context, attrs: AttributeSet) : ScrollView(context, attrs) {
-  val uncategorisedButton: Button by bindView(R.id.home_uncategorised_button)
-  val nerdyButton: Button by bindView(R.id.home_nerdy_button)
-  val explicitButton: Button by bindView(R.id.home_explicit_button)
-  val randomJokeAnimator: ViewAnimator by bindView(R.id.home_random_animator)
-  val randomJokeView: TextView by bindView(R.id.home_random_joke)
+class HomeView(context: Context, attrs: AttributeSet) : ViewAnimator(context, attrs) {
+  val recyclerView: RecyclerView by bindView(R.id.home_recycler)
+  val adapter = GamesAdapter()
+
+  override fun onFinishInflate() {
+    super.onFinishInflate()
+    recyclerView.adapter = adapter
+    recyclerView.layoutManager = LinearLayoutManager(context)
+  }
 
   override fun onAttachedToWindow() {
     super.onAttachedToWindow()
-
-    uncategorisedButton.clicks().subscribe { Flow.get(this).set(JokeListScreen(Category.UNCATEGORISED)) }
-    nerdyButton.clicks().subscribe { Flow.get(this).set(JokeListScreen(Category.NERDY)) }
-    explicitButton.clicks().subscribe { Flow.get(this).set(JokeListScreen(Category.EXPLICIT)) }
+    adapter.clicks().subscribe {
+      Flow.get(this).set(GameScreen(it))
+    }
   }
 
-  fun displayRandomJoke(randomJoke: String) {
-    randomJokeView.text = Html.fromHtml(randomJoke)
-    randomJokeAnimator.displayedChild = 1
+  fun displayGames(games: List<Game>) {
+    adapter.setGames(games)
+    displayedChild = 1
+  }
+
+  fun displayError() {
+    displayedChild = 2
   }
 }

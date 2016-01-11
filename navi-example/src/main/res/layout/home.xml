@@ -7,80 +7,45 @@
     android:id="@+id/home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:inAnimation="@android:anim/fade_in"
+    android:outAnimation="@android:anim/fade_out"
     >
 
   <LinearLayout
-      android:layout_width="match_parent"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:gravity="center"
       android:orientation="vertical"
-      android:padding="16dp"
       >
 
-    <TextView
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/home_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        />
-
-    <Button
-        android:id="@+id/home_uncategorised_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/home_uncategorised"
-        />
-
-    <Button
-        android:id="@+id/home_nerdy_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/home_nerdy"
-        />
-
-    <Button
-        android:id="@+id/home_explicit_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/home_explicit"
         />
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/home_random"
+        android:text="@string/home_loading"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         />
 
-    <ViewAnimator
-        android:id="@+id/home_random_animator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:inAnimation="@android:anim/fade_in"
-        android:outAnimation="@android:anim/fade_out"
-        >
-
-      <ProgressBar
-          android:id="@+id/home_random_loading"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          />
-
-      <TextView
-          android:id="@+id/home_random_joke"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:textStyle="italic"
-          android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-          />
-
-    </ViewAnimator>
-
   </LinearLayout>
+
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/home_recycler"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scrollbars="vertical"
+      />
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:gravity="center"
+      android:text="@string/home_error"
+      android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+      />
 
 </com.example.navi.home.HomeView>

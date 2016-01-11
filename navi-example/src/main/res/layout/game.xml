@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) GRIDSTONE 2016
+  -->
+
+<com.example.navi.game.GameView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/game"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      >
+
+    <ImageView
+        android:id="@+id/game_image"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
+        />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:padding="16dp"
+        android:useDefaultMargins="true"
+        >
+
+      <TextView
+          android:id="@+id/game_name"
+          android:layout_width="0dp"
+          android:layout_columnSpan="2"
+          android:layout_gravity="fill_horizontal"
+          android:textAppearance="@style/TextAppearance.AppCompat.Title"
+          />
+
+      <TextView
+          android:id="@+id/game_summary"
+          android:layout_width="0dp"
+          android:layout_columnSpan="2"
+          android:layout_gravity="fill_horizontal"
+          android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+          />
+
+      <TextView
+          android:layout_gravity="right"
+          android:text="@string/game_aliases"
+          android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+          android:textStyle="bold"
+          />
+
+      <TextView
+          android:id="@+id/game_aliases"
+          android:layout_width="0dp"
+          android:layout_gravity="fill_horizontal"
+          android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+          />
+
+      <TextView
+          android:layout_gravity="right"
+          android:text="@string/game_release_date"
+          android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+          android:textStyle="bold"
+          />
+
+      <TextView
+          android:id="@+id/game_release_date"
+          android:layout_width="0dp"
+          android:layout_gravity="fill_horizontal"
+          android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+          />
+
+    </GridLayout>
+
+  </LinearLayout>
+
+</com.example.navi.game.GameView>

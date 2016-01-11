@@ -5,12 +5,11 @@
 <resources>
   <string name="app_name">Navi Example</string>
 
-  <string name="home_title">Chuck Norris Jokes</string>
-  <string name="home_uncategorised">Uncategorised</string>
-  <string name="home_nerdy">Nerdy</string>
-  <string name="home_explicit">Explicit</string>
-  <string name="home_random">Random Joke</string>
+  <string name="home_loading">Fetching Zelda titles…</string>
+  <string name="home_error">An error occurred during fetch of game list :(</string>
 
-  <string name="joke_list_loading">Fetching jokes…</string>
-  <string name="joke_list_error">An error occurred whilst fetching jokes.</string>
+  <string name="game_loading">Fetching game info…</string>
+  <string name="game_error">An error occurred during fetch of game info :(</string>
+  <string name="game_aliases">Also known as</string>
+  <string name="game_release_date">Released on</string>
 </resources>
