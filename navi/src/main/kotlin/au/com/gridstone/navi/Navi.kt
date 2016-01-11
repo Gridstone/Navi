@@ -49,6 +49,12 @@ class Navi(val container: ViewGroup,
 
     destinationScreen.link(destinationPresenter, destinationView)
 
+    traversal.destination.currentViewState().restore(destinationView)
+
+    if (currentView != null && traversal.direction == Direction.FORWARD) {
+      traversal.origin.currentViewState().save(currentView)
+    }
+
     if (currentView == null) {
       callback.onTraversalCompleted()
       listener?.onNavigate(destinationScreen, traversal.direction)
