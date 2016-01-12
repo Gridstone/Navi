@@ -6,11 +6,13 @@ buildscript {
   dependencies {
     classpath rootProject.ext.androidPlugin
     classpath rootProject.ext.kotlinPlugin
+    classpath rootProject.ext.bintrayReleasePlugin
   }
 }
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.novoda.bintray-release'
 
 dependencies {
   compile rootProject.ext.kotlinStdlib
@@ -32,4 +34,16 @@ android {
     main.java.srcDirs += 'src/main/kotlin'
     test.java.srcDirs += 'src/test/kotlin'
   }
+}
+
+publish {
+  userOrg = ORGANISATION
+  groupId = GROUP
+  artifactId = 'navi'
+  publishVersion = VERSION_NAME
+  desc = DESCRIPTION
+  website = PROJECT_URL
+  repoName=BINTRAY_REPO
+  bintrayUser = System.getenv('BINTRAY_USER')
+  bintrayKey = System.getenv('BINTRAY_KEY')
 }

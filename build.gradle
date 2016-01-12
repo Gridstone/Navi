@@ -28,6 +28,7 @@ ext {
   junit = 'junit:junit:4.12'
   robolectric = 'org.robolectric:robolectric:3.0'
   truth = 'com.google.truth:truth:0.28'
+  bintrayReleasePlugin = 'com.novoda:bintray-release:0.3.4'
 }
 
 subprojects {
