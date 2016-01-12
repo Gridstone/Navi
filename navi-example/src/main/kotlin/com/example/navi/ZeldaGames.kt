@@ -14,7 +14,7 @@ import rx.Observable
 
 object ZeldaGames {
   private const val API_URL = "http://www.giantbomb.com/api/"
-  private const val API_KEY = "8ca8e06cb445b8c055442108161848001a1c66fc"
+  private const val API_KEY = "a05c078843cb3035a3cd057e046c4230636fe704"
 
   private val client = OkHttpClient.Builder()
       .addInterceptor { chain ->
