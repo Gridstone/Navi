@@ -5,7 +5,7 @@
 package com.example.navi
 
 import android.view.ViewGroup
-import au.com.gridstone.navi.AppCompatNaviActivity
+import au.com.gridstone.navi.appcompat.AppCompatNaviActivity
 import au.com.gridstone.navi.PresenterStack
 import au.com.gridstone.navi.Segue
 import com.example.navi.home.HomeScreen

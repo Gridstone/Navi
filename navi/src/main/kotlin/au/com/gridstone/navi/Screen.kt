@@ -5,7 +5,6 @@
 package au.com.gridstone.navi
 
 import android.content.Context
-import android.support.annotation.LayoutRes
 import android.view.View
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -16,7 +15,7 @@ abstract class Screen<V> {
 
   abstract val label: String
 
-  @LayoutRes abstract fun getLayoutRes(): Int
+  abstract fun getLayoutRes(): Int
 
   abstract fun createPresenter(context: Context): Presenter<V>
 

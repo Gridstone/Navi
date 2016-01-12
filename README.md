@@ -42,7 +42,7 @@ class HomeScreen : Screen<HomeView>() {
 
 ###Presenter
 
-Your `Presenter` mediates the delivery of data to a `View`, and capturing events from a `View`. A `Presenter` may or may not have a `View` at any point in time. Navi's `Presenters` survive orientation changes, which makes them much easier to conceptualise. When your user has navigated to a particular `Screen`, this `Presenter will always exist. They also have their own lifecycle:
+Your `Presenter` mediates the delivery of data to a `View`, and capturing events from a `View`. A `Presenter` may or may not have a `View` at any point in time. Navi's `Presenters` survive orientation changes, which makes them much easier to conceptualise. When your user has navigated to a particular `Screen`, this `Presenter` will always exist. They also have their own lifecycle:
 
  - `onCreate(savedState: Bundle?)`
  - `onViewReady(view: V)`
