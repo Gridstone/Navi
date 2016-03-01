@@ -20,15 +20,15 @@ dependencies {
   compile "com.android.support:recyclerview-v7:$rootProject.ext.supportLibVersion"
   compile 'com.google.code.gson:gson:2.5'
   compile 'com.squareup.picasso:picasso:2.5.2'
-  compile 'com.squareup.okhttp3:okhttp:3.0.0-RC1'
-  compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
-  compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta3'
-  compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
+  compile 'com.squareup.okhttp3:okhttp:3.2.0'
+  compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+  compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+  compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
   compile 'io.reactivex:rxjava:1.1.0'
   compile 'io.reactivex:rxandroid:1.1.0'
   compile 'io.reactivex:rxkotlin:0.40.1'
   compile 'com.jakewharton:kotterknife:0.1.0-SNAPSHOT'
-  compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.3.1-SNAPSHOT'
+  compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.4.0'
 }
 
 android {
