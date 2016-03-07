@@ -8,6 +8,8 @@ What is this library?
 
 Navi is an experimental library that aims to ease the development of `Fragment`less Android applications using the [Model-View-Presenter](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93presenter) pattern.
 
+In essence, it's a little framework that marries `Presenters` to `Keys` managed by `Flow`. Navi will take the responsibility of being your Flow's [Dispatcher](https://github.com/square/flow/blob/master/flow/src/main/java/flow/Dispatcher.java).
+
 This library takes care of managing a stack of `Presenters` that have a lifecycle decoupled from `Views`. Your `Presenter` can take model data and pump it into a `View`, and also take events from a `View` and deliver them to your model layer. (This lends itself quite well to [RxJava](https://github.com/ReactiveX/RxJava)).
 
 For now, Navi will remain very much in flux as we test how much we like this approach to development. We might find that we hate it and drop support all together; or maybe we'll love it. Who knows?
@@ -21,10 +23,12 @@ We do find Flow to be pretty awesome though, and Navi delegates its back-stack m
 How do I use it?
 ----------------
 
+Before using Navi, it's important to have a sound understanding of [Flow](https://github.com/square/flow). Navi is to be used in conjunction with Flow, and will be the bridge from Flow into the world of MVP.
+
 Navi requires you to think about your application as a set of distinct `Screens`. You might have a Home screen that navigates to an Item List screen that navigates to a Details screen. In traditional Android development, these might have been `Activities`, or `Fragments` that pushed and popped.
 
 When using Navi, each section of your app will have three defined components:
- - Screen
+ - Screen (which will be a Flow `Key`)
  - Presenter
  - View
 
