@@ -21,12 +21,12 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
-import flow.Flow
+import flow.Direction
 
 private const val FADE_DURATION = 150L
 
 class CrossFadeSegue : Segue {
-  override fun createAnimation(from: View, to: View, direction: Flow.Direction): Animator {
+  override fun createAnimation(from: View, to: View, direction: Direction): Animator {
     from.setLayerType(View.LAYER_TYPE_HARDWARE, null)
     to.setLayerType(View.LAYER_TYPE_HARDWARE, null)
     to.alpha = 0f
@@ -34,8 +34,8 @@ class CrossFadeSegue : Segue {
     val fromAnim = ObjectAnimator.ofFloat(from, View.ALPHA, 0f)
     val toAnim = ObjectAnimator.ofFloat(to, View.ALPHA, 1f)
 
-    fromAnim.setDuration(FADE_DURATION)
-    toAnim.setDuration(FADE_DURATION)
+    fromAnim.duration = FADE_DURATION
+    toAnim.duration = FADE_DURATION
 
     val set = AnimatorSet()
     set.playSequentially(fromAnim, toAnim)

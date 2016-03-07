@@ -16,108 +16,110 @@
 
 package au.com.gridstone.navi
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.app.Activity
+import android.app.Application
+import android.content.Context
+import android.content.ContextWrapper
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import flow.Flow
-import flow.Flow.Direction
-import flow.History
+import android.support.annotation.IdRes
+import flow.Dispatcher
 
-class Navi(val container: ViewGroup,
-           val presenterStack: PresenterStack,
-           val listener: Listener? = null,
-           val segue: Segue = CrossFadeSegue())
-: Flow.Dispatcher, HandlesBack {
-  private val inflater = LayoutInflater.from(container.context)
-  var currentHistory: History? = null
+object Navi {
+  private const val STACK_SERVICE = "navi.STACK_SERVICE"
+  private const val DISPATCHER_SERVICE = "navi.DISPATCHER_SERVICE"
 
-  fun onCreate(savedState: Bundle?) {
-    presenterStack.onCreate(savedState)
-  }
+  fun appBaseContext(baseContext: Context, app: Application): Context {
+    val presenterStack: PresenterStack = PresenterStack(app)
 
-  override fun dispatch(traversal: Flow.Traversal, callback: Flow.TraversalCallback) {
-    currentHistory = traversal.destination
-    val destinationScreen: Screen<*> = traversal.destination.top()
-    val currentView: View? = container.getChildAt(0)
-
-    if (traversal.direction == Direction.REPLACE && destinationScreen.equals(traversal.origin.top()) && currentView != null) {
-      // If we're just replacing to the current screen, and that view is visible...
-      // don't bother doing anything.
-      callback.onTraversalCompleted()
-      return
-    }
-
-    listener?.onPreNavigate(destinationScreen, traversal.direction)
-
-    presenterStack.update(traversal.destination)
-    val destinationPresenter = presenterStack.peek()!!
-
-    val destinationView = inflater.inflate(destinationScreen.getLayoutRes(), container, false)
-    container.addView(destinationView)
-
-    destinationScreen.link(destinationPresenter, destinationView)
-
-    traversal.destination.currentViewState().restore(destinationView)
-
-    if (currentView != null && traversal.direction == Direction.FORWARD) {
-      traversal.origin.currentViewState().save(currentView)
-    }
-
-    if (currentView == null) {
-      callback.onTraversalCompleted()
-      listener?.onNavigate(destinationScreen, traversal.direction)
-      return
-    }
-
-    currentView.waitForMeasure {
-      destinationView.waitForMeasure {
-        val animator = segue.createAnimation(currentView, destinationView, traversal.direction)
-        animator.addListener(object : AnimatorListenerAdapter() {
-          override fun onAnimationEnd(animation: Animator?) {
-            container.removeView(currentView)
-            callback.onTraversalCompleted()
-            listener?.onNavigate(destinationScreen, traversal.direction)
-          }
-        })
-        animator.start()
+    app.registerActivityLifecycleCallbacks(object : ActivityLifeCycleAdapter() {
+      override fun onActivityPaused(activity: Activity) {
+        presenterStack.peek()?.dropView()
       }
+
+      override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+        presenterStack.onSaveInstanceState(outState)
+      }
+
+      override fun onActivityDestroyed(activity: Activity) {
+        presenterStack.onDestroy(activity)
+      }
+    })
+
+    return AppContextWrapper(baseContext, presenterStack)
+  }
+
+  private class AppContextWrapper(baseContext: Context, val presenterStack: PresenterStack)
+  : ContextWrapper(baseContext) {
+    override fun getSystemService(name: String?): Any? {
+      if (STACK_SERVICE == name) {
+        return presenterStack
+      }
+
+      return super.getSystemService(name)
     }
   }
 
-  override fun goBack(): Boolean {
-    val currentView: View? = container.getChildAt(0)
-    if (currentView is HandlesBack) return currentView.goBack()
-    return false;
+  fun configure(baseContext: Context, activity: Activity): Installer {
+    val presenterStack: PresenterStack = baseContext.applicationContext.getSystemService(
+        STACK_SERVICE) as PresenterStack?
+        ?: throw IllegalStateException(
+        "Navi not configured correctly in Application. Are you using Navi.appBaseContext()?")
+
+    return Installer(baseContext, activity, presenterStack)
   }
 
-  fun onPause() {
-    presenterStack.peek()?.dropView()
-  }
+  data class Installation(val dispatcher: Dispatcher, val newContext: Context)
 
-  fun onResume() {
-    val currentPresenter = presenterStack.peek()
-    val currentView: View? = container.getChildAt(0)
+  class Installer(val baseContext: Context,
+                  val activity: Activity,
+                  val presenterStack: PresenterStack) {
+    private var containerId: Int? = null
+    private var segue: Segue? = null
+    private var listener: NaviListener? = null
 
-    if (currentPresenter != null && currentView != null) {
-      currentHistory?.top<Screen<*>>()?.link(currentPresenter, currentView)
+    fun containerId(@IdRes containerId: Int): Installer {
+      this.containerId = containerId
+      return this
+    }
+
+    fun segue(segue: Segue): Installer {
+      this.segue = segue
+      return this
+    }
+
+    fun listener(listener: NaviListener): Installer {
+      this.listener = listener
+      return this
+    }
+
+    fun install(): Installation {
+      val containerId = this.containerId ?: throw NullPointerException(
+          "You must call containerId() when configuring Navi.")
+      val segue = this.segue ?: CrossFadeSegue()
+      val dispatcher = NaviDispatcher(presenterStack, baseContext, activity, containerId, segue,
+          listener)
+      val wrappedContext = ActivityContextWrapper(baseContext, dispatcher)
+
+      return Installation(dispatcher, wrappedContext)
     }
   }
 
-  fun onSaveInstanceState(outState: Bundle) {
-    presenterStack.onSaveInstanceState(outState)
+  private class ActivityContextWrapper(baseContext: Context, val dispatcher: NaviDispatcher)
+  : ContextWrapper(baseContext) {
+    override fun getSystemService(name: String?): Any? {
+      if (DISPATCHER_SERVICE == name) {
+        return dispatcher
+      }
+
+      return super.getSystemService(name)
+    }
   }
 
-  fun onDestroy(activity: Activity) {
-    presenterStack.onDestroy(activity)
-  }
+  fun goBack(activity: Activity): Boolean {
+    val dispatcher = activity.getSystemService(
+        DISPATCHER_SERVICE) as NaviDispatcher? ?: throw IllegalStateException(
+        "Navi has not been configured for this Activity.")
 
-  interface Listener {
-    fun onPreNavigate(destination: Screen<*>, direction: Direction)
-    fun onNavigate(destination: Screen<*>, direction: Direction)
+    return dispatcher.goBack()
   }
 }
-

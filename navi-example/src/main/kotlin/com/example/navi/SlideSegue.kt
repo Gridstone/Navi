@@ -22,13 +22,13 @@ import android.animation.ObjectAnimator
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.View
 import au.com.gridstone.navi.Segue
-import flow.Flow
+import flow.Direction
 
 class SlideSegue : Segue {
   val interpolator = FastOutSlowInInterpolator()
 
-  override fun createAnimation(from: View, to: View, direction: Flow.Direction): Animator {
-    val backward = direction == Flow.Direction.BACKWARD
+  override fun createAnimation(from: View, to: View, direction: Direction): Animator {
+    val backward = direction == Direction.BACKWARD
     val fromTranslation = if (backward) from.width else -from.width
     val toTranslation = if (backward) -to.width else to.width
 

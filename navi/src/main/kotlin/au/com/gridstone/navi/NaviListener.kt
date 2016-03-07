@@ -14,15 +14,11 @@
  * limitations under the License
  */
 
-package com.example.navi
+package au.com.gridstone.navi
 
-import android.app.Application
-import android.content.Context
-import au.com.gridstone.navi.Navi
+import flow.Direction
 
-class NaviExampleApp : Application() {
-  override fun attachBaseContext(baseContext: Context) {
-    val naviAppContext = Navi.appBaseContext(baseContext, this)
-    return super.attachBaseContext(naviAppContext)
-  }
+interface NaviListener {
+  fun onPreNavigate(destination: Screen<*>, direction: Direction)
+  fun onNavigate(destination: Screen<*>, direction: Direction)
 }

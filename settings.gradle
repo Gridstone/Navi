@@ -1,3 +1,2 @@
 include ':navi-example'
-include ':navi-appcompat'
 include ':navi'

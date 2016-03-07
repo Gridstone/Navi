@@ -16,25 +16,37 @@
 
 package com.example.navi
 
-import android.view.ViewGroup
-import au.com.gridstone.navi.appcompat.AppCompatNaviActivity
-import au.com.gridstone.navi.PresenterStack
-import au.com.gridstone.navi.Segue
+import android.content.Context
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import au.com.gridstone.navi.Navi
 import com.example.navi.home.HomeScreen
-import flow.History
-import flow.StateParceler
+import flow.Flow
 
-class MainActivity : AppCompatNaviActivity() {
-  override fun getPresenterStack(): PresenterStack = getApp(this).presenterStack
+class MainActivity : AppCompatActivity() {
+  override fun attachBaseContext(newBase: Context) {
+    val (dispatcher, naviContext) = Navi.configure(newBase, this)
+        .containerId(R.id.main_container)
+        .segue(SlideSegue())
+        .install()
 
-  override fun getContainer(): ViewGroup {
-    setContentView(R.layout.main_container)
-    return findViewById(R.id.main_container) as ViewGroup
+    val baseContext = Flow.configure(naviContext, this)
+        .dispatcher(dispatcher)
+        .defaultKey(HomeScreen())
+        .keyParceler(MoshiParceler())
+        .install()
+
+    super.attachBaseContext(baseContext)
   }
 
-  override fun getParceler(): StateParceler = GsonParceler()
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.main_container)
+  }
 
-  override fun getDefaultHistory(): History = History.single(HomeScreen())
-
-  override fun getSegue(): Segue = SlideSegue()
+  override fun onBackPressed() {
+    if (Navi.goBack(this)) return
+    if (Flow.get(this).goBack()) return
+    super.onBackPressed()
+  }
 }

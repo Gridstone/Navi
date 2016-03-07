@@ -20,7 +20,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.Result
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import rx.Observable
 
@@ -44,7 +44,7 @@ object ZeldaGames {
   val webApi = Retrofit.Builder()
       .baseUrl(API_URL)
       .client(client)
-      .addConverterFactory(GsonConverterFactory.create())
+      .addConverterFactory(MoshiConverterFactory.create())
       .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
       .build()
       .create(WebApi::class.java)

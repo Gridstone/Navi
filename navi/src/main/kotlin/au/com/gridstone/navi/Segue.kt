@@ -18,8 +18,8 @@ package au.com.gridstone.navi
 
 import android.animation.Animator
 import android.view.View
-import flow.Flow
+import flow.Direction
 
 interface Segue {
-  fun createAnimation(from: View, to: View, direction: Flow.Direction): Animator
+  fun createAnimation(from: View, to: View, direction: Direction): Animator
 }

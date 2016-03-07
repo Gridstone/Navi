@@ -20,8 +20,6 @@ import android.content.Context
 import android.view.View
 import java.util.concurrent.atomic.AtomicInteger
 
-private val nextId = AtomicInteger()
-
 abstract class Screen<V> {
   val id = nextId.incrementAndGet()
 
@@ -51,5 +49,9 @@ abstract class Screen<V> {
     } catch (e: Exception) {
       throw IllegalArgumentException("screen, presenter, and view must all be for the same view type.", e)
     }
+  }
+
+  private companion object {
+    private val nextId = AtomicInteger()
   }
 }
