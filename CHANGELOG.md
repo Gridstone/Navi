@@ -1,5 +1,12 @@
 Change Log
 ==========
+
+Version 0.2.1 *(2016-03-17)*
+----------------------------
+* Fix bug where screens would replace incorrectly in `onResume()`
+  - Related to https://github.com/square/flow/issues/173
+* Bump Kotlin to 1.0.1
+
 Version 0.2.0 *(2016-03-07)*
 ----------------------------
 * Bump Flow to 1.0.0-alpha
