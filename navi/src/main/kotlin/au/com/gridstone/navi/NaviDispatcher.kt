@@ -61,17 +61,18 @@ internal class NaviDispatcher(val presenterStack: PresenterStack,
   }
 
   override fun dispatch(traversal: Traversal, callback: TraversalCallback) {
-    currentHistory = traversal.destination
     val destinationScreen: Screen<*> = traversal.destination.top()
     val currentView: View? = container.getChildAt(0)
 
     if (traversal.direction == Direction.REPLACE && destinationScreen.equals(
-        traversal.origin?.top()) && currentView != null) {
+        currentHistory?.top()) && currentView != null) {
       // If we're just replacing to the current screen, and that view is visible...
       // don't bother doing anything.
       callback.onTraversalCompleted()
       return
     }
+
+    currentHistory = traversal.destination
 
     listener?.onPreNavigate(destinationScreen, traversal.direction)
 
