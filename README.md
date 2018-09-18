@@ -3,6 +3,11 @@ Navi
 
 ![Navi](http://img09.deviantart.net/b2a1/i/2006/310/8/1/_navi__by_link3kokiri.gif) Hey! Listen! Easy Android navigation with [Flow](https://github.com/square/flow) and MVP.
 
+DEPRECATED
+==========
+
+This library is obviously quite old and never grew past being an experiment. If you're interested in building Android apps without `Fragments` then check out [Conductor](https://github.com/bluelinelabs/Conductor/).
+
 What is this library?
 ---------------------
 
